@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+if [ "${1}" = '-f' ]; then
+  rm -rf /tmp/chef && curl --retry 3 https://raw.github.com/schubert/brewstrap/master/brewstrap.sh > /tmp/brewstrap.sh && bash /tmp/brewstrap.sh
+else
+  curl --retry 3 https://raw.github.com/schubert/brewstrap/master/brewstrap.sh > /tmp/brewstrap.sh && bash /tmp/brewstrap.sh
+fi
+

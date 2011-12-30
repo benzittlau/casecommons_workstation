@@ -1,0 +1,40 @@
+[user]
+  editor = vim
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = true
+
+[apply]
+  whitespace = nowarn
+
+[format]
+  pretty = format:"%h %C(yellow)%ci%Creset %Cgreen%an%Creset | %s"
+
+[alias]
+  st = status
+  di = diff
+  co = checkout
+  ci = commit
+  c = commit
+  br = branch
+  sta = stash
+  llog = log --date=local
+  unpushed = !"PROJ_BRANCH=$(git symbolic-ref HEAD | sed 's|refs/heads/||') && git log origin/$PROJ_BRANCH..HEAD"
+  unpulled = !"PROJ_BRANCH=$(git symbolic-ref HEAD | sed 's|refs/heads/||') && git fetch && git log HEAD..origin/$PROJ_BRANCH"
+  w = whatchanged
+
+[core]
+  excludesfile = <%= WS_HOME %>/.gitignoreglobal
+  legacyheaders = false
+  editor = vim
+
+[push]
+  default = current
+
+[branch]
+  autosetupmerge = true
+
