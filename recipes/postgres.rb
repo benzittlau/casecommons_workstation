@@ -1,7 +1,7 @@
 include_recipe "pivotal_workstation::homebrew"
 
 execute "remove postgres marker if upgrade required" do
-  only_if { node[:postgres][:version] == `psql --version | head -n 1 | cut -f 3 -d ' '`.strip }
+  not_if { node[:postgres][:version] == `psql --version | head -n 1 | cut -f 3 -d ' '`.strip }
   command "rm -f #{WS_HOME}/.install_markers/postgres"
 end
 
