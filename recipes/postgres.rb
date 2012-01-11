@@ -1,8 +1,8 @@
 include_recipe "pivotal_workstation::homebrew"
 
-execute "remove postgres marker if upgrade required" do
-  not_if { node[:postgres][:version] == `psql --version | head -n 1 | cut -f 3 -d ' '`.strip }
-  command "rm -f #{WS_HOME}/.install_markers/postgres"
+# remove postgres marker if upgrade required - cannot do as a chef resource because run_unless method evaluates too early
+if node[:postgres][:version] != `psql --version | head -n 1 | cut -f 3 -d ' '`.strip
+  system "rm -f #{WS_HOME}/.install_markers/postgres"
 end
 
 run_unless_marker_file_exists("postgres") do
