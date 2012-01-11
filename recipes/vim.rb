@@ -1,3 +1,5 @@
+homebrew "mercurial"
+
 homebrew "vim" do
   formula "https://raw.github.com/pivotal-casebook/microbrew/master/vim.rb"
 end
@@ -53,8 +55,16 @@ end
 execute "compile command-t" do
   only_if "test -d #{vim_dir}/bundle/command-t/ruby/command-t"
   cwd "#{node["vim_home"]}/bundle/command-t/ruby/command-t"
-  command "rvm use system && ruby extconf.rb && make clean && make"
+  command "rvm use system && rvm system exec ruby extconf.rb && make clean && make"
   user WS_USER
+end
+
+execute "verify-that-command-t-is-correctly-compiled-for-vim" do
+  command %{test "`otool -l #{node["vim_home"]}/bundle/command-t/ruby/command-t/ext.bundle | grep libruby`" = "`otool -l /usr/local/bin/vim | grep libruby`"}
+end
+
+execute "verify-that-command-t-is-correctly-compiled-for-mvim" do
+  command %{test "`otool -l #{node["vim_home"]}/bundle/command-t/ruby/command-t/ext.bundle | grep libruby`" = "`otool -l /Applications/MacVim.app/Contents/MacOS/Vim | grep libruby`"}
 end
 
 file "/Users/#{WS_USER}/.vimrc.local" do
