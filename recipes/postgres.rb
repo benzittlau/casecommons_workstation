@@ -41,12 +41,12 @@ run_unless_marker_file_exists("postgres") do
 
 
   execute "copy over the plist" do
-    command %'cp /usr/local/Cellar/postgresql/9.*/org.postgresql.postgres.plist ~/Library/LaunchAgents/'
+    command %'cp /usr/local/Cellar/postgresql/9.*/*postgresql*.plist ~/Library/LaunchAgents/'
     user WS_USER
   end
 
   execute "start the daemon" do
-    command %'launchctl load -w ~/Library/LaunchAgents/org.postgresql.postgres.plist'
+    command %'launchctl load -w ~/Library/LaunchAgents/*postgresql*.plist'
     user WS_USER
   end
 
