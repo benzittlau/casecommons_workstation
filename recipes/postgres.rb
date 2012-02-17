@@ -32,6 +32,8 @@ run_unless_marker_file_exists("postgres") do
     user WS_USER
   end
 
+
+
   launch_agents_path = File.expand_path('.', File.join('~','Library', 'LaunchAgents'))
   directory launch_agents_path do
     action :create
@@ -60,40 +62,25 @@ run_unless_marker_file_exists("postgres") do
     command "createdb"
     user WS_USER
   end
-  # "initdb /tmp/junk.$$" will fail unless you modify sysctl variables
-  # Michael Sofaer says that these are probably the right settings:
-  #   kern.sysv.shmall=65535
-  #   kern.sysv.shmmax=16777216
-  #not_if File.exists?("/etc/sysctl.conf") do
-  # check if the sysctl variables are big enough
-  #   if not, set them
-  # check if /etc/sysctl.conf exists
-  #   if so, check if kern.sysv.{shmall,shmmax} are set
-  #     if so, check that they're set large enough
-  #       if so, go on
-  #   otherwise
-  #     modify /etc/sysctl.conf to make them big enough
-  # otherwise
-  #   create /etc/sysctl.conf & make these settings big enough
-  #
 
 end
 
-# ruby_block "test to see if postgres is running" do
-# block do
-    # # require 'socket'
-    # # postgres_port = 5432
-    # # begin
-      # # s = TCPSocket.open('localhost',postgres_port)
-    # # rescue => e
-      # # raise "postgres is not running: " << e.to_s
-    # # end
-    # # s.close
-    # `sudo -u #{WS_USER} psql < /dev/null`
-    # if $?.to_i != 0
-      # raise "I couldn't invoke postgres!"
-    # end
-  # end
-# end
+template "/usr/local/var/postgres/postgresql.conf" do
+  source "postgresql.conf.erb"
+  owner WS_USER
+  notifies :run, "execute[restart-postgres-server]"
+end
 
+execute "set kernal SHMMAX" do
+  command "sysctl -w kern.sysv.shmmax=6442450944"
+end
 
+execute "set kernal SHMALL" do
+  command "sysctl -w kern.sysv.shmall=393216"
+end
+
+execute "restart-postgres-server" do
+  command %'launchctl unload -w #{WS_HOME}/Library/LaunchAgents/*postgresql*.plist && launchctl load -w #{WS_HOME}/Library/LaunchAgents/*postgresql*.plist'
+  user  WS_USER
+  action :nothing
+end
