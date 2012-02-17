@@ -1,4 +1,5 @@
 include_recipe "pivotal_workstation::homebrew"
+include_recipe "casecommons_workstation::sysctl"
 
 # remove postgres marker if upgrade required - cannot do as a chef resource because run_unless method evaluates too early
 if node[:postgres][:version] != `psql --version | head -n 1 | cut -f 3 -d ' '`.strip
@@ -69,14 +70,6 @@ template "/usr/local/var/postgres/postgresql.conf" do
   source "postgresql.conf.erb"
   owner WS_USER
   notifies :run, "execute[restart-postgres-server]"
-end
-
-execute "set kernal SHMMAX" do
-  command "sysctl -w kern.sysv.shmmax=6442450944"
-end
-
-execute "set kernal SHMALL" do
-  command "sysctl -w kern.sysv.shmall=393216"
 end
 
 execute "restart-postgres-server" do
