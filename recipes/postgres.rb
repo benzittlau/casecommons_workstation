@@ -69,11 +69,17 @@ end
 template "/usr/local/var/postgres/postgresql.conf" do
   source "postgresql.conf.erb"
   owner WS_USER
-  notifies :run, "execute[restart-postgres-server]"
 end
 
-execute "restart-postgres-server" do
-  command %'launchctl unload -w #{WS_HOME}/Library/LaunchAgents/*postgresql*.plist && launchctl load -w #{WS_HOME}/Library/LaunchAgents/*postgresql*.plist'
-  user  WS_USER
-  action :nothing
+script "restart-postgres-server" do
+  environment({ "PATH" => node[:current_path] })
+  user WS_USER
+  interpreter "bash"
+  code <<-SH
+    launchctl unload -w #{WS_HOME}/Library/LaunchAgents/*postgresql*.plist
+    sleep 5
+    ps aux | grep postgres |grep -v grep| awk '{print $2}' | xargs kill
+    launchctl load -w #{WS_HOME}/Library/LaunchAgents/*postgresql*.plist
+  SH
 end
+
