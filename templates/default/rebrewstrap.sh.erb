@@ -1,7 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/bash
 if [ "${1}" = '-f' ]; then
-  rm -rf /tmp/chef && curl --retry 3 https://raw.github.com/schubert/brewstrap/master/brewstrap.sh > /tmp/brewstrap.sh && bash /tmp/brewstrap.sh
-else
-  curl --retry 3 https://raw.github.com/schubert/brewstrap/master/brewstrap.sh > /tmp/brewstrap.sh && bash /tmp/brewstrap.sh
+  rm -rf /tmp/chef
 fi
-
+if [ `id -u` == 0 ]; then
+  echo "Do not run this as root, run as the user you wish to chef"
+  exit 1
+fi
+(curl --retry 3 -L <%= node[:brewstrap][:src] %> > /tmp/brewstrap.sh && bash /tmp/brewstrap.sh) || (echo "Rebrewstrap failed on `hostname`" | mail -s "Rebrewstrap failed" casebook-dev@googlegroups.com)

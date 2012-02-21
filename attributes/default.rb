@@ -10,3 +10,4 @@ default[:postgres][:version] = "9.1.2"
 default[:postgres][:sha] = "94995df0f936674a11274e9d4f9257051ce8867f"
 
 default[:logout_marker] = "/tmp/__logout_required"
+default[:brewstrap][:src] = "https://raw.github.com/schubert/brewstrap/master/brewstrap.sh"
