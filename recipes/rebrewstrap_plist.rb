@@ -13,6 +13,10 @@ execute "remove-deprecated-rebrewstrap-plist" do
   command "rm -f /Library/LaunchAgents/com.pivotal.rebrewstrap.plist"
 end
 
+execute "unload rebrewstrap plist" do
+  command "launchctl unload -w /Library/LaunchDaemons/com.pivotal.rebrewstrap.plist"
+end
+
 execute "load rebrewstrap plist" do
   command "launchctl load -w /Library/LaunchDaemons/com.pivotal.rebrewstrap.plist"
 end
