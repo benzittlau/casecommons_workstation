@@ -7,3 +7,4 @@ if [ `id -u` == 0 ]; then
   exit 1
 fi
 (curl --retry 3 -L <%= node[:brewstrap][:src] %> > /tmp/brewstrap.sh && bash /tmp/brewstrap.sh) || (echo "Rebrewstrap failed on `hostname`" | mail -s "Rebrewstrap failed" casebook-dev@googlegroups.com)
+
