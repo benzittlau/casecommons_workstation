@@ -1,8 +1,8 @@
-execute "install-or-update-rvm" do
-  environment( { "PATH" => node[:current_path] } )
-  command "rvm get #{node[:rvm][:version]}"
-  user WS_USER
-end
+# execute "install-or-update-rvm" do
+  # environment( { "PATH" => node[:current_path] } )
+  # command "rvm get #{node[:rvm][:version]}"
+  # user WS_USER
+# end
 
 execute "rvm-project-rvmrc" do
   cwd WS_HOME
