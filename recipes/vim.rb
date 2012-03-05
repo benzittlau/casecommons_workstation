@@ -52,10 +52,14 @@ execute "reset vim config from git" do
   SH
 end
 
+compile_command_t_cmd = "rvm use system && rvm system exec ruby extconf.rb && make clean && make"
+if node[:ruby_runner] == "rbenv"
+  compile_command_t_cmd = "rbenv shell system && ruby extconf.rb && make clean && make"
+end
 execute "compile command-t" do
   only_if "test -d #{vim_dir}/bundle/command-t/ruby/command-t"
   cwd "#{node["vim_home"]}/bundle/command-t/ruby/command-t"
-  command "rvm use system && rvm system exec ruby extconf.rb && make clean && make"
+  command compile_command_t_cmd
   user WS_USER
 end
 

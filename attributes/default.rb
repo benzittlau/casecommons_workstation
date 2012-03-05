@@ -1,6 +1,10 @@
+if File.exist?("#{WS_HOME}/.rbenv")
+  default[:ruby_runner] = "rbenv"
+else
+  default[:ruby_runner] = "rvm"
+end
 default[:current_path] = [ENV['PATH'], (node[:current_path] || ""), "#{WS_HOME}/.rvm/bin"].join(":")
 default[:rvm][:version] = "1.9.2"
-
 default[:github][:api][:login] = ENV["GITHUB_LOGIN"]
 default[:github][:api][:keys_url] = "https://api.github.com/user/keys"
 default[:github][:api][:add_url] = "https://api.github.com/user/keys"
