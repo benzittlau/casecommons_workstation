@@ -1,4 +1,4 @@
-include_recipe "casecommons_workstation::postgres"
+include_recipe "pivotal_workstation::postgres"
 
 # http://nextmarvel.net/blog/2011/09/brew-install-postgresql-on-os-x-lion/
 script "move-lion-out-of-the-way" do
