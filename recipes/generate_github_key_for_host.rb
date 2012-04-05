@@ -11,18 +11,15 @@ script "add github to knownhosts" do
   EOH
 end
 
-if ENV["GITHUB_PASSWORD"]
+if node[:github][:api][:password]
   github_name="#{WS_USER}@#{node[:fqdn]}"
-  curl_options = "--retry 3 --retry-delay 5 --retry-max-time 30 --connect-timeout 5 --max-time 30"
+  curl_options = %[--retry 3 --retry-delay 5 --retry-max-time 30 --connect-timeout 5 --max-time 30 -u "#{node[:github][:api][:login]}:#{node[:github][:api][:login]}"]
   execute "upload ssh key to github if it does not already exist there" do
     not_if <<-SH
-      curl #{curl_options} \
-           --data-urlencode \"login=#{node[:github][:api][:login]}\" \
-           --data-urlencode \"token=#{node[:github][:api][:token]}\" \
-           #{node[:github][:api][:keys_url]} | grep "`cat #{WS_HOME}/.ssh/id_github_#{node["github_project"]}.pub` | cut -f 2 -d ' '`"
+      curl #{curl_options} #{node[:github][:api][:keys_url]} | grep "`cat #{WS_HOME}/.ssh/id_github_#{node["github_project"]}.pub` | cut -f 2 -d ' '`"
     SH
     command <<-SH
-    curl -X POST --verbose #{curl_options} -u '#{node[:github][:api][:login]}:#{ENV["GITHUB_PASSWORD"]}' \
+    curl -X POST --verbose #{curl_options} \
          --data "{ \\"key\\": \\"`cat #{WS_HOME}/.ssh/id_github_#{node["github_project"]}.pub`\\", \\"title\\": \\"#{github_name}\\" }" \
          #{node[:github][:api][:add_url]}
     SH
