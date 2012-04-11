@@ -7,3 +7,8 @@ template "#{WS_HOME}/.bash_profile_includes/preexec.sh.lib" do
   source "preexec.sh.lib.erb"
   owner WS_USER
 end
+
+template "#{WS_HOME}/.bash_profile_includes/ps1.sh" do
+  source "ps1.sh"
+  owner WS_USER
+end
