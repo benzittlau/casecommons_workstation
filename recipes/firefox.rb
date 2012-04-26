@@ -1,5 +1,5 @@
 remote_file "/tmp/firefox-#{node[:firefox][:version]}.dmg" do
-  source "http://download.mozilla.org/?product=firefox-#{node[:firefox][:version]}&os=osx&lang=en-US"
+  source "ftp://ftp.mozilla.org/pub/firefox/releases/#{node[:firefox][:version]}/mac/en-US/Firefox%20#{node[:firefox][:version]}.dmg"
   mode "0644"
   checksum node[:firefox][:checksum]
   not_if %Q{test "Mozilla Firefox #{node[:firefox][:version]}" = "`/Applications/Firefox.app/Contents/MacOS/firefox -v`"}
