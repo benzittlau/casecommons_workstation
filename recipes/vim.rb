@@ -1,16 +1,24 @@
 homebrew "mercurial"
-
+execute "force reinstall vim" do
+  command "brew uninstall vim"
+end
 homebrew "vim" do
   formula "https://raw.github.com/pivotal-casebook/microbrew/master/vim.rb"
 end
 
-# execute "uninstall-macvim" do
-  # command "brew uninstall macvim"
-# end
+execute "uninstall-macvim" do
+  command "brew uninstall macvim"
+end
 # homebrew "macvim" do
   # pre_command "rvm use system"
   # formula "https://raw.github.com/pivotal-casebook/microbrew/master/macvim.rb"
-# end
+
+
+execute "brew install macvim with system ruby" do
+  user WS_USER
+  command "rvm system exec brew install macvim"
+  not_if "brew list | grep '^macvim$'"
+end
 
 vim_dir = "#{WS_HOME}/.vim"
 execute "remove-existing-vim-config-link-to-dropbox" do
@@ -52,7 +60,7 @@ execute "reset vim config from git" do
   SH
 end
 
-compile_command_t_cmd = "rvm use system && rvm system exec ruby extconf.rb && make clean && make"
+compile_command_t_cmd = "rvm system exec ruby extconf.rb && make clean && make"
 if node[:ruby_runner] == "rbenv"
   compile_command_t_cmd = "rbenv shell system && ruby extconf.rb && make clean && make"
 end
