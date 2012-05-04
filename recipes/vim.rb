@@ -89,7 +89,7 @@ ruby_block "Link MacVim to /Applications" do
     macvim_app=Dir["/usr/local/Cellar/macvim/*/MacVim.app"].last
     raise "no macvim found" unless macvim_app
     if File.exists?(macvim_app)
-      system("ln -s #{macvim_app} /Applications/")
+      system("ln -fs #{macvim_app} /Applications/")
     end
   end
 end
