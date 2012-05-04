@@ -83,3 +83,13 @@ file "/Users/#{WS_USER}/.vimrc.local" do
   action :touch
   owner WS_USER
 end
+
+ruby_block "Link MacVim to /Applications" do
+  block do
+    macvim_app=Dir["/usr/local/Cellar/macvim/*/MacVim.app"].last
+    raise "no macvim found" unless macvim_app
+    if File.exists?(macvim_app)
+      system("ln -s #{macvim_app} /Applications/")
+    end
+  end
+end
