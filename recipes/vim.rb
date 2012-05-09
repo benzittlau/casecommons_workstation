@@ -2,7 +2,7 @@ homebrew "mercurial"
 
 execute "uninstall-vim" do
   command "brew uninstall vim"
-  if "brew list | grep '^vim$'"
+  only_if "brew list | grep '^vim$'"
 end
 
 homebrew "vim" do
@@ -11,7 +11,7 @@ end
 
 execute "uninstall-macvim" do
   command "brew uninstall macvim"
-  if "brew list | grep '^macvim$'"
+  only_if "brew list | grep '^macvim$'"
 end
 
 execute "brew install macvim with system ruby" do
