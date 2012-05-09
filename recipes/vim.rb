@@ -1,18 +1,18 @@
 homebrew "mercurial"
-execute "force reinstall vim" do
+
+execute "uninstall-vim" do
   command "brew uninstall vim"
+  if "brew list | grep '^vim$'"
 end
+
 homebrew "vim" do
   formula "https://raw.github.com/pivotal-casebook/microbrew/master/vim.rb"
 end
 
 execute "uninstall-macvim" do
   command "brew uninstall macvim"
+  if "brew list | grep '^macvim$'"
 end
-# homebrew "macvim" do
-  # pre_command "rvm use system"
-  # formula "https://raw.github.com/pivotal-casebook/microbrew/master/macvim.rb"
-
 
 execute "brew install macvim with system ruby" do
   user WS_USER
