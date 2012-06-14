@@ -14,9 +14,14 @@ execute "uninstall-macvim" do
   only_if "brew list | grep '^macvim$'"
 end
 
-execute "brew install macvim with system ruby" do
+script "brew install macvim" do
+  environment({ "PATH" => "/Applications/Xcode.app/Contents/Developer/usr/bin:#{node[:current_path]}" })
   user WS_USER
-  command "rvm system exec brew install macvim"
+  interpreter "bash"
+  code <<-SH
+    echo $PATH
+    rvm system exec brew install macvim
+  SH
   not_if "brew list | grep '^macvim$'"
 end
 
