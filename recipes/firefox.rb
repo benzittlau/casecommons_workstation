@@ -11,5 +11,5 @@ execute "install firefox" do
     cp -R /Volumes/Firefox/Firefox.app /Applications/
     hdiutil detach /Volumes/Firefox
   SH
-  not_if %Q{test "Mozilla Firefox #{node[:firefox][:version]}" = "`/Applications/Firefox.app/Contents/MacOS/firefox -v`"}
+  not_if %Q{test "Mozilla Firefox #{node[:firefox][:version].delete("esr")}" = "`/Applications/Firefox.app/Contents/MacOS/firefox -v`"}
 end

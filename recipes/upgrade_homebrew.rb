@@ -1,5 +1,9 @@
-execute "upgrade-homebrew-to-0.8.1" do
-  not_if "test `brew --version` = '0.8.1'"
-  command "brew update"
-  user WS_USER
+execute "clean-brew-repository-if-required" do
+  not_if "test `brew --version` = '#{node[:brew][:version]}'"
+  command "cd `brew --prefix` && git reset --hard HEAD && git clean -f -d"
+end
+
+brew do
+  not_if "test `brew --version` = '#{node[:brew][:version]}'"
+  action :update
 end

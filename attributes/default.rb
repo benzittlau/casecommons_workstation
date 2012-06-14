@@ -1,10 +1,6 @@
-if File.exist?("#{WS_HOME}/.rbenv")
-  default[:ruby_runner] = "rbenv"
-else
-  default[:ruby_runner] = "rvm"
-end
+default[:ruby_runner] = "rvm"
 default[:current_path] = [ENV['PATH'], (node[:current_path] || ""), "#{WS_HOME}/.rvm/bin"].join(":")
-default[:rvm][:version] = "1.9.2"
+default[:rvm][:version] = "1.9.3-p125"
 default[:github][:api][:login] = ENV["GITHUB_LOGIN"]
 default[:github][:api][:password] = ENV["GITHUB_PASSWORD"]
 default[:github][:api][:keys_url] = "https://api.github.com/user/keys"
@@ -21,3 +17,8 @@ default[:firefox][:checksum] = "745a420c9915dc87b74fcde2c0b301b39b7031f5b9365c27
 
 default[:rebrewstrap_plist] = "/Library/LaunchDaemons/com.pivotal.rebrewstrap.plist"
 default[:rebrewstrap_plist_deprecated] = "/Library/LaunchAgents/com.pivotal.rebrewstrap.plist"
+
+default[:postgres][:version] = "9.1.2"
+default[:postgres][:sha] = "94995df0f936674a11274e9d4f9257051ce8867f"
+
+default[:brew][:version] = "0.9"

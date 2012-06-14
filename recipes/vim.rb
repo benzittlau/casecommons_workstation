@@ -60,14 +60,20 @@ execute "reset vim config from git" do
   SH
 end
 
-compile_command_t_cmd = "rvm system exec ruby extconf.rb && make clean && make"
-if node[:ruby_runner] == "rbenv"
-  compile_command_t_cmd = "rbenv shell system && ruby extconf.rb && make clean && make"
+ruby_block "Link MacVim to /Applications" do
+  block do
+    macvim_app=Dir["/usr/local/Cellar/macvim/*/MacVim.app"].last
+    raise "no macvim found" unless macvim_app
+    if File.exists?(macvim_app)
+      system("ln -fs #{macvim_app} /Applications/")
+    end
+  end
 end
+
 execute "compile command-t" do
   only_if "test -d #{vim_dir}/bundle/command-t/ruby/command-t"
   cwd "#{node["vim_home"]}/bundle/command-t/ruby/command-t"
-  command compile_command_t_cmd
+  command "rvm system exec ruby extconf.rb && make clean && make"
   user WS_USER
 end
 
@@ -82,14 +88,4 @@ end
 file "/Users/#{WS_USER}/.vimrc.local" do
   action :touch
   owner WS_USER
-end
-
-ruby_block "Link MacVim to /Applications" do
-  block do
-    macvim_app=Dir["/usr/local/Cellar/macvim/*/MacVim.app"].last
-    raise "no macvim found" unless macvim_app
-    if File.exists?(macvim_app)
-      system("ln -fs #{macvim_app} /Applications/")
-    end
-  end
 end
