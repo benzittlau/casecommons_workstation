@@ -41,12 +41,12 @@ run_unless_marker_file_exists("postgres") do
   end
 
   execute "remove postgres plists from launchd" do
-    command "launchctl list | cut -f 3 | grep postgres | xargs -I {} launchctl remove {}"
+    command "launchctl list | cut -f 3 | grep postgres | xargs -I {} launchctl remove {}; true"
     user WS_USER
   end
 
   execute "remove the existing plists" do
-    command %'rm ~/Library/LaunchAgents/*postgresql*.plist'
+    command %'rm -f ~/Library/LaunchAgents/*postgresql*.plist'
     user WS_USER
   end
 

@@ -18,7 +18,7 @@ default[:firefox][:checksum] = "745a420c9915dc87b74fcde2c0b301b39b7031f5b9365c27
 default[:rebrewstrap_plist] = "/Library/LaunchDaemons/com.pivotal.rebrewstrap.plist"
 default[:rebrewstrap_plist_deprecated] = "/Library/LaunchAgents/com.pivotal.rebrewstrap.plist"
 
-default[:postgres][:version] = "9.1.2"
-default[:postgres][:sha] = "94995df0f936674a11274e9d4f9257051ce8867f"
+default[:postgres][:version] = "9.1.3"
+default[:postgres][:sha] = "e088818"
 
 default[:brew][:version] = "0.9"

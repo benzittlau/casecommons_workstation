@@ -6,6 +6,6 @@ define :homebrew, formula: nil do
   execute "homebrew-install-#{params[:name]}" do
     command "#{pre_command}(brew install #{formula} || brew upgrade #{formula} && brew linkapps)"
     user WS_USER
-    ignore_failure true
+    # ignore_failure true
   end
 end
