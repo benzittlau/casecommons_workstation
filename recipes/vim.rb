@@ -2,7 +2,7 @@ directory "/Users/#{WS_USER}/Applications" do
   owner WS_USER
 end
 
-brew install "mercurial"
+brew_install "mercurial"
 
 execute "uninstall-vim" do
   command "brew uninstall vim"
