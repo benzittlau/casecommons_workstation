@@ -1,3 +1,7 @@
+directory "/Users/#{WS_USER}/Applications" do
+  owner WS_USER
+end
+
 homebrew "mercurial"
 
 execute "uninstall-vim" do
