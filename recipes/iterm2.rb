@@ -1,4 +1,4 @@
-include_recipe "casecommons_workstation::inconsolata"
+include_recipe "casecommons_workstation::fonts"
 
 unless File.exists?("/Applications/iTerm.app")
 
