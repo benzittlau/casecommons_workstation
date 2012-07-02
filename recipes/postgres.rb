@@ -19,13 +19,14 @@ run_unless_marker_file_exists("postgres") do
     log "Did not find plist at #{plist_pattern} don't try to unload it"
   end
 
+  brew_remove "postgresql"
+
 #    blow away default image's data directory
   directory "/usr/local/var/postgres" do
     action :delete
     recursive true
   end
 
-  brew_remove "postgresql"
   brew_install "postgresql", sha: node[:postgres][:sha]
 
   execute "create the database" do
