@@ -60,9 +60,9 @@ run_unless_marker_file_exists("postgres") do
     user WS_USER
   end
 
-  ruby_block "wait four seconds for the database to start" do
+  ruby_block "wait one minute for the database to start" do
     block do
-      sleep 4
+      sleep 60
     end
   end
 
