@@ -1,6 +1,8 @@
 #!/bin/bash
 if [ "${1}" = '-f' ]; then
   rm -rf /tmp/chef
+  sudo rm -rf /tmp/chef-solo-brewstrap
+  rm /tmp/brewstrap.sh
 fi
 if [ `id -u` == 0 ]; then
   echo "Do not run this as root, run as the user you wish to chef"
