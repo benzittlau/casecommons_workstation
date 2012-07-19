@@ -14,6 +14,8 @@ unless File.exists?("/Applications/iTerm.app")
 end
 
 template "/tmp/com.googlecode.iterm2.plist.xml" do
+  # To get this, convert the binary plist to XML
+  # e.g. plutil -convert xml1 ~/Library/Preferences/com.googlecode.iterm2.plist
   source "com.googlecode.iterm2.xml.erb"
   owner WS_USER
 end
