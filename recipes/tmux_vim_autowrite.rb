@@ -1,3 +1,9 @@
+execute "make textmate bundles directory" do
+  command "mkdir -p '#{WS_HOME}/.bash_profile_includes'"
+  user WS_USER
+  not_if { File.exists?("#{WS_HOME}/.bash_profile_includes") }
+end
+
 template "#{WS_HOME}/.bash_profile_includes/autowrite-vim.sh" do
   source "autowrite-vim.sh.erb"
   owner WS_USER
