@@ -42,6 +42,11 @@ run_unless_marker_file_exists("postgres") do
     recursive true
   end
 
+  execute "enforce correct brew postgresql formula" do
+    command "cd /usr/local ; git co #{node[:postgres][:sha]} Library/Formula/postgresql.rb"
+    user WS_USER
+  end
+
   execute "brew install postgresql" do
     not_if "brew list postgresql"
     user WS_USER
