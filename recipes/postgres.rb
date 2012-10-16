@@ -48,7 +48,7 @@ run_unless_marker_file_exists("postgres") do
   end
 
   execute "brew install postgresql" do
-    not_if "brew list postgresql"
+    not_if "brew switch postgresql #{node[:postgres][:version]}"
     user WS_USER
     command "brew install postgresql"
   end
